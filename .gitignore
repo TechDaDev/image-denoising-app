@@ -1,7 +1,7 @@
 # Create/update .gitignore
 *
 !streamlit_app/
-"!streamlit_app/**
+!streamlit_app/**
 !.gitignore
 
 # Add common ignores
