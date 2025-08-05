@@ -8,6 +8,7 @@
 !app.py
 !README.md
 !requirements.txt
+!models/
 
 # Common ignores
 __pycache__/
@@ -19,7 +20,6 @@ venv/
 env/
 
 # Ignore model files
-models/
 *.h5
 *.hdf5
 *.pth
