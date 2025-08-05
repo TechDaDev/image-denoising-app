@@ -5,7 +5,7 @@
 !.gitignore
 
 # Allow the app files
-!app.py
+!streamlit_app.py
 !README.md
 !requirements.txt
 
