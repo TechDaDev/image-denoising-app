@@ -1,21 +1,38 @@
-# Create/update .gitignore
+# Ignore everything by default
 *
-!streamlit_app/
-!streamlit_app/**
+
+# Allow the .gitignore file itself
 !.gitignore
 
-# Add common ignores
+# Allow the app files (moved to root)
+!app.py
+!README.md
+!requirements.txt
+
+# Common ignores
 __pycache__/
 *.py[cod]
-*.class
 *$py.class
 .idea/
 .vscode/
 venv/
 env/
+
+# Ignore model files
+models/
 *.h5
 *.hdf5
 *.pth
+*.pkl
+
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 *.pkl
 .DS_Store
 Thumbs.db
