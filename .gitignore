@@ -4,11 +4,16 @@
 # Allow the .gitignore file itself
 !.gitignore
 
-# Allow the app files (moved to root)
+# Allow the app files
 !app.py
 !README.md
 !requirements.txt
+
+# Allow models directory and its contents
 !models/
+!models/*.h5
+!models/*.hdf5
+!models/*.pth
 
 # Common ignores
 __pycache__/
@@ -19,12 +24,6 @@ __pycache__/
 venv/
 env/
 
-# Ignore model files
-*.h5
-*.hdf5
-*.pth
-*.pkl
-
 # Ignore OS generated files
 .DS_Store
 .DS_Store?
@@ -32,7 +31,4 @@ env/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-Thumbs.db
-*.pkl
-.DS_Store
 Thumbs.db
