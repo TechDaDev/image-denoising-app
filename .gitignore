@@ -1,0 +1,21 @@
+# Create/update .gitignore
+*
+!streamlit_app/
+"!streamlit_app/**
+!.gitignore
+
+# Add common ignores
+__pycache__/
+*.py[cod]
+*.class
+*$py.class
+.idea/
+.vscode/
+venv/
+env/
+*.h5
+*.hdf5
+*.pth
+*.pkl
+.DS_Store
+Thumbs.db
