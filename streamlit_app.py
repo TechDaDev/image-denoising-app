@@ -215,3 +215,23 @@ buf = io.BytesIO()
 Image.fromarray((final * 255).astype(np.uint8)).save(buf, format="PNG")
 buf.seek(0)
 st.download_button("⬇️ Download Output (PNG)", buf, file_name="denoised.png", mime="image/png")
+
+# Side-by-side composite (Original | After DnCNN | Final)
+orig_u8 = (orig * 255).astype(np.uint8)
+denoised_u8 = (denoised * 255).astype(np.uint8)
+final_u8 = (final * 255).astype(np.uint8)
+
+# Ensure same height and concatenate horizontally
+try:
+    side_by_side = np.concatenate([orig_u8, denoised_u8, final_u8], axis=1)
+    sbs_buf = io.BytesIO()
+    Image.fromarray(side_by_side).save(sbs_buf, format="PNG")
+    sbs_buf.seek(0)
+    st.download_button(
+        "⬇️ Download Side-by-Side (PNG)",
+        sbs_buf,
+        file_name="comparison_side_by_side.png",
+        mime="image/png"
+    )
+except Exception as e:
+    st.warning(f"Could not create side-by-side image: {e}")
