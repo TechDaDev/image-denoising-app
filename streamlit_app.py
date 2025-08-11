@@ -1,6 +1,7 @@
 import os
 import io
 import numpy as np
+import pydicom
 from pathlib import Path
 from PIL import Image
 import streamlit as st
@@ -13,6 +14,8 @@ from skimage.restoration import (
 )
 import tensorflow as tf
 from skimage.filters import gaussian
+from scipy.signal import wiener
+from scipy.ndimage import median_filter
 from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
 from scipy import stats
@@ -97,6 +100,47 @@ if st.sidebar.button("Load Model") or st.session_state.current_model is None:
         else:
             st.session_state.model_loaded = False
 
+# Sidebar: Traditional filter configuration
+st.sidebar.title("Traditional Filters")
+
+# Available filter options
+FILTER_OPTIONS = [
+    "Non-Local Means",
+    "Wavelet Denoising",
+    "Median (3x3)",
+    "Wiener (3x3)",
+]
+
+pre_filters = st.sidebar.multiselect(
+    "Apply before DnCNN",
+    options=FILTER_OPTIONS,
+    default=["Non-Local Means", "Wavelet Denoising"],
+    help="Pre-filters reduce heavy noise so DnCNN focuses on residuals."
+)
+
+post_filters = st.sidebar.multiselect(
+    "Apply after DnCNN",
+    options=FILTER_OPTIONS,
+    default=[],
+    help="Post-filters are usually light to avoid oversmoothing."
+)
+
+with st.sidebar.expander("Filter settings"):
+    # NLM settings
+    nlm_h_factor = st.slider("NLM h × sigma", 0.3, 1.5, 0.8, 0.1,
+                             help="Strength of NLM denoising relative to estimated sigma.")
+    nlm_patch_size = st.select_slider("NLM patch size", options=[3,5,7], value=5)
+    nlm_patch_distance = st.select_slider("NLM patch distance", options=[3,5,7,9], value=3)
+
+    # Wavelet settings
+    wavelet_type = st.selectbox("Wavelet type", options=["db1", "db2", "sym4", "haar"], index=0)
+    wavelet_method = st.selectbox("Wavelet method", options=["BayesShrink", "VisuShrink"], index=0)
+    wavelet_mode = st.selectbox("Threshold mode", options=["soft", "hard"], index=0)
+
+    # Median & Wiener
+    median_size = st.select_slider("Median size", options=[3,5,7], value=3)
+    wiener_size = st.select_slider("Wiener size", options=[3,5,7], value=3)
+
 # Main title
 st.title("🔧 Hybrid Denoiser: Traditional → DnCNN → Optional Sharpening")
 st.caption("Traditional filters reduce bulk noise; DnCNN handles residuals; crisp edges re‑introduced afterward.")
@@ -109,41 +153,107 @@ if not st.session_state.model_loaded:
 model = st.session_state.current_model
 
 # 1. Upload
-uploaded = st.file_uploader("Upload ultrasound (grayscale) image", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
+uploaded = st.file_uploader(
+    "Upload ultrasound (grayscale) image (PNG/JPG/DICOM)",
+    type=["png", "jpg", "jpeg", "dcm"],
+    accept_multiple_files=False
+)
 if uploaded is None:
     st.info("Waiting for image upload…")
     st.stop()
 
-# Read image
-img = Image.open(uploaded).convert("L")
-orig = img_as_float(np.array(img))
+def load_dicom_as_float(file) -> np.ndarray:
+    """Load a DICOM file-like object and return a float32 image in [0,1].
+    Applies basic rescale using RescaleSlope/Intercept if present and min-max normalization.
+    """
+    ds = pydicom.dcmread(file)
+    pixel = ds.pixel_array.astype(np.float32)
+    # Rescale if metadata present
+    slope = getattr(ds, 'RescaleSlope', 1.0)
+    intercept = getattr(ds, 'RescaleIntercept', 0.0)
+    pixel = pixel * slope + intercept
+    # Windowing (if WindowCenter/Width present)
+    wc = getattr(ds, 'WindowCenter', None)
+    ww = getattr(ds, 'WindowWidth', None)
+    if isinstance(wc, pydicom.multival.MultiValue):
+        wc = float(wc[0])
+    if isinstance(ww, pydicom.multival.MultiValue):
+        ww = float(ww[0])
+    if wc is not None and ww is not None and ww > 1e-3:
+        low = wc - ww / 2.0
+        high = wc + ww / 2.0
+        pixel = np.clip(pixel, low, high)
+    # Normalize to [0,1]
+    pmin, pmax = np.min(pixel), np.max(pixel)
+    if pmax > pmin:
+        pixel = (pixel - pmin) / (pmax - pmin)
+    else:
+        pixel = np.zeros_like(pixel, dtype=np.float32)
+    return pixel.astype(np.float32)
 
-# Pre‑filter 1: Non‑Local Means
+# Read image (PNG/JPG/DICOM)
+if uploaded.name.lower().endswith('.dcm'):
+    try:
+        orig = load_dicom_as_float(uploaded)
+        # Ensure 2D grayscale
+        if orig.ndim == 3:
+            orig = orig[..., 0]
+        img = Image.fromarray((orig * 255).astype(np.uint8), mode='L')
+    except Exception as e:
+        st.error(f"Failed to read DICOM: {e}")
+        st.stop()
+else:
+    img = Image.open(uploaded).convert("L")
+    orig = img_as_float(np.array(img))
+
+# Helper: apply traditional filters in selected order
+def apply_traditional_filters(image: np.ndarray, selections: list, sigma_val: float) -> np.ndarray:
+    out = image.astype(np.float32)
+    for f in selections:
+        if f == "Non-Local Means":
+            out = denoise_nl_means(
+                out,
+                patch_size=nlm_patch_size,
+                patch_distance=nlm_patch_distance,
+                h=nlm_h_factor * sigma_val,
+                fast_mode=True,
+                channel_axis=None,
+            )
+        elif f == "Wavelet Denoising":
+            out = denoise_wavelet(
+                out,
+                sigma=sigma_val,
+                wavelet=wavelet_type,
+                method=wavelet_method,
+                mode=wavelet_mode,
+                rescale_sigma=True,
+                channel_axis=None,
+            )
+        elif f == "Median (3x3)":
+            out = median_filter(out, size=median_size)
+        elif f == "Wiener (3x3)":
+            out = wiener(out, mysize=wiener_size)
+        # keep in [0,1]
+        out = np.clip(out, 0, 1).astype(np.float32)
+    return out
+
+# Estimate noise level (used by NLM/Wavelet)
 sigma_est = estimate_sigma(orig, channel_axis=None)
-nlm = denoise_nl_means(orig,
-                       patch_size=5,
-                       patch_distance=3,
-                       h=0.8 * sigma_est,
-                       fast_mode=True,
-                       channel_axis=None)
 
-# Pre‑filter 2: Wavelet denoising
-wavelet = denoise_wavelet(nlm,
-                          sigma=sigma_est,
-                          wavelet='db1',
-                          method='BayesShrink',
-                          mode='soft',
-                          rescale_sigma=True,
-                          channel_axis=None)
+# Apply pre-filters
+prefiltered = apply_traditional_filters(orig, pre_filters, sigma_est) if pre_filters else orig
 
-# Normalize to [0,1]
-input_img = np.clip(wavelet, 0, 1).astype(np.float32)
+# Normalize to [0,1] for model input
+input_img = np.clip(prefiltered, 0, 1).astype(np.float32)
 # Prepare for DnCNN: shape (1, H, W, 1)
 x = input_img[np.newaxis, ..., np.newaxis]
 
-# DnCNN Predict
-denoised = model.predict(x)[0, ..., 0]
-denoised = np.clip(denoised, 0, 1)
+# DnCNN Predict (After pre-filters)
+dncnn_out = model.predict(x)[0, ..., 0]
+denoised = np.clip(dncnn_out, 0, 1)
+
+# Apply post-filters if any
+post_out = apply_traditional_filters(denoised, post_filters, sigma_est) if post_filters else denoised
 
 # Optional: light Gaussian sharpening
 # Sliders
@@ -151,13 +261,13 @@ apply_sharpening = st.checkbox("Apply edge sharpening", value=True)
 amount = st.slider("Unsharp amount", min_value=0.1, max_value=2.0, value=1.0, step=0.1)
 sigma_gauss = st.slider("Gaussian blur for sharpening", min_value=0.1, max_value=2.0, value=1.0, step=0.1)
 
-# Apply sharpening if checkbox is enabled
+# Apply sharpening if checkbox is enabled (after post-filters)
 if apply_sharpening:
-    blurred = gaussian(denoised, sigma=sigma_gauss)
-    sharpened = denoised + amount * (denoised - blurred)
+    blurred = gaussian(post_out, sigma=sigma_gauss)
+    sharpened = post_out + amount * (post_out - blurred)
     final = np.clip(sharpened, 0, 1)
 else:
-    final = denoised
+    final = post_out
 
 # Calculate metrics
 with st.spinner('Calculating metrics...'):
