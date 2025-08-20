@@ -1,0 +1,25 @@
+# Core Dependencies
+numpy
+Pillow
+scikit-image
+scipy
+
+# Deep Learning
+tensorflow
+
+# Web Application
+streamlit
+
+# Image Processing
+opencv-python-headless
+pywavelets
+
+# Utilities
+# For plotting if needed
+matplotlib
+
+# For data handling if needed
+pandas
+
+# Medical Imaging (DICOM)
+pydicom
