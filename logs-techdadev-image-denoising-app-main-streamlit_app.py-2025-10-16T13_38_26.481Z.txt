@@ -1,0 +1,494 @@
+
+[     UTC     ] Logs for image-denoising-app.streamlit.app/
+────────────────────────────────────────────────────────────────────────────────────────
+[13:25:48] 🚀 Starting up repository: 'image-denoising-app', branch: 'main', main module: 'streamlit_app.py'
+[13:25:48] 🐙 Cloning repository...
+[13:25:50] 🐙 Cloning into '/mount/src/image-denoising-app'...
+
+[13:25:50] 🐙 Cloned repository!
+[13:25:50] 🐙 Pulling code changes from Github...
+[13:25:50] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.8 environment at /home/adminuser/venv
+Resolved 83 packages in 798ms
+Prepared 83 packages in 15.81s
+Installed 83 packages in 1.15s
+ + absl-py==2.3.1
+ + altair==5.5.0
+ + astunparse==1.6.3
+ + attrs==25.4.0
+ + blinker==1.9.0
+ + cachetools==6.2.1
+ + certifi==2025.10.5
+ + charset-normalizer==3.4.4
+ + click[2025-10-16 13:26:08.527413] ==8.0.4
+ + contourpy==1.3.3
+ + cycler==0.12.1
+ + flatbuffers==25.9.23
+ + fonttools==4.60.1
+ + gast==0.6.0
+ + gitdb==4.0.12
+ + gitpython==3.1.45
+ + google-pasta==0.2.0
+ +[2025-10-16 13:26:08.527656]  grpcio==1.75.1
+ + h5py==3.15.1
+ + idna==3.11
+ + imageio==2.37.0
+ + importlib-metadata==8.7.0
+ + jinja2==3.1.6
+ + [2025-10-16 13:26:08.527861] jsonschema==4.25.1
+ + jsonschema-specifications==2025.9.1
+ + keras==3.11.3
+ + kiwisolver==1.4.9
+ + lazy-loader==0.4
+ + libclang==18.1.1
+ + [2025-10-16 13:26:08.528077] markdown==3.9
+ + markdown-it-py==4.0.0
+ + markupsafe==3.0.3
+ + matplotlib==3.10.7
+ + mdurl==0.1.2
+ + ml-dtypes[2025-10-16 13:26:08.528276] ==0.5.3
+ + namex==0.1.0
+ + narwhals==2.8.0
+ + networkx==3.5
+ + numpy==2.3.4[2025-10-16 13:26:08.528481] 
+ + opencv-python-headless==4.11.0.86
+ + opt-einsum==3.4.0
+ + optree==0.17.0
+ + packaging==25.0
+ + pandas==2.3.3
+ +[2025-10-16 13:26:08.528742]  pillow==12.0.0
+ + protobuf==6.33.0
+ + pyarrow==21.0.0
+ + pydeck==0.9.1
+ [2025-10-16 13:26:08.528913] + pydicom==3.0.1
+ + pygments==2.19.2
+ + pympler==1.1
+ + pyparsing==3.2.5[2025-10-16 13:26:08.529064] 
+ + python-dateutil==2.9.0.post0
+ + pytz==2025.2
+ + pywavelets==1.9.0
+ + referencing==0.37.0
+ + requests==2.32.5
+ + rich==14.2.0
+ + rpds-py==0.27.1
+ + scikit-image==0.25.2
+ + scipy==1.16.2
+ + semver==3.0.4
+ + setuptools==80.9.0
+ + six==1.17.0[2025-10-16 13:26:08.529543] 
+ + smmap==5.0.2
+ + streamlit==1.9.0
+ + tensorboard==2.20.0
+ + tensorboard-data-server==[2025-10-16 13:26:08.529722] 0.7.2
+ + tensorflow==2.20.0
+ + termcolor==3.1.0
+ + tifffile==2025.10.4
+ + toml==0.10.2
+ [2025-10-16 13:26:08.529870] + tornado==6.5.2
+ + typing-extensions==4.15.0
+ + tzdata==2025.2
+ + tzlocal==5.3.1
+ +[2025-10-16 13:26:08.530019]  urllib3==2.5.0
+ + validators==0.35.0
+ + watchdog==6.0.0
+ + werkzeug==3.1.3
+ + wheel==0.45.1
+ + wrapt==1.17.3
+ + zipp==3.23.0
+Checking if Streamlit is installed
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+WARNING: Package(s) not found: streamlit-nightly
+Couldn't find Streamlit version.
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.8 environment at /home/adminuser/venv
+Audited 1 package in 3ms
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[13:26:10] 🐍 Python dependencies were installed from /mount/src/image-denoising-app/requirements.txt using uv.
+Check if streamlit is installed
+Streamlit is already installed
+[13:26:11] 📦 Processed dependencies!
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+[13:26:14] ❗️ error restarting streamlit: exit status 7: output: streamlit: ERROR (not running)
+streamlit: ERROR (spawn error)
+
+[13:26:14] ❗️ Error during processing dependencies! Please fix the error and push an update, or try restarting the app.
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+[13:34:56] 🐙 Pulling code changes from Github...
+[13:34:57] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.8 environment at /home/adminuser/venv
+  × No solution found when resolving dependencies:
+  ╰─▶ Because only the following versions of tensorflow are available:
+          tensorflow<=2.8.4
+          tensorflow>=2.9.0,<=2.9.3
+          tensorflow>=2.10.0,<=2.10.1
+          tensorflow>=2.11.0,<=2.11.1
+          tensorflow>=2.12.0,<=2.12.1
+          tensorflow>=2.13.0,<=2.13.1
+          tensorflow>=2.14.0,<=2.14.1
+          tensorflow>=2.15.0,<=2.15.1
+          tensorflow>=2.16.1,<=2.16.2
+          tensorflow>=2.17.0,<=2.17.1
+          tensorflow>=2.18.0,<=2.18.1
+          tensorflow>=2.19.0,<=2.19.1
+          tensorflow>=2.20.0
+      and all of:
+          tensorflow>=2.8.0,<=2.8.4
+          tensorflow>=2.9.0,<=2.9.3
+          tensorflow>=2.10.0,<=2.10.1
+          tensorflow>=2.11.0,<=2.11.1
+          tensorflow>=2.12.0,<=2.12.1
+          tensorflow>=2.13.0,<=2.13.1
+          tensorflow>=2.14.0,<=2.14.1
+          tensorflow>=2.15.0,<=2.15.1
+          tensorflow>=2.16.1,<=2.16.2
+          tensorflow>=2.17.0,<=2.17.1
+          tensorflow>=2.18.0,<=2.18.1
+          tensorflow>=2.19.0,<=2.19.1
+      have no wheels with a matching Python ABI tag, we can conclude that
+      all of:
+          tensorflow>=2.8.0,<2.8.1
+          tensorflow>2.8.4,<2.9.0
+          tensorflow>2.9.3,<2.10.0
+          tensorflow>2.10.1,<2.11.0
+          tensorflow>2.11.1,<2.12.0
+          tensorflow>2.12.1,<2.13.0
+          tensorflow>2.13.1,<2.14.0
+          tensorflow>2.14.1,<2.15.0
+          tensorflow>2.15.1,<2.16.1
+          tensorflow>2.16.2,<2.17.0
+          tensorflow>2.17.1,<2.18.0
+          tensorflow>2.18.1,<2.19.0
+          tensorflow>2.19.1,<2.20.0
+       cannot be used.
+      And because tensorflow==2.20.0 depends on protobuf>=5.28.0, we can
+      conclude that tensorflow>=2.8.0 depends on protobuf>=5.28.0.
+      And because you require tensorflow>=2.8.0 and protobuf>=3.19.0,<4.0.0,
+      we can conclude that your requirements are unsatisfiable.
+
+      hint: Pre-releases are available for tensorflow in the requested
+      range (e.g., 2.20.0rc0), but pre-releases weren't enabled (try:
+      `--prerelease=allow`)
+Checking if Streamlit is installed
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+WARNING: Package(s) not found: streamlit-nightly
+Couldn't find Streamlit version.
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.8 environment at /home/adminuser/venv
+Audited 1 package in 3ms
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+──────────────────────────────────────── pip ───────────────────────────────────────────
+
+Using standard pip install.
+Collecting numpy<2.0.0,>=1.21.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 2))
+  Downloading numpy-1.26.4.tar.gz (15.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.8/15.8 MB 189.5 MB/s eta 0:00:00[2025-10-16 13:35:00.001878] 
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): still running...
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting Pillow>=8.0.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 3))
+  Downloading pillow-12.0.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting scikit-image>=0.19.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading scikit_image-0.25.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+Collecting scipy>=1.7.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 5))
+  Downloading scipy-1.16.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 118.6 MB/s eta 0:00:00[2025-10-16 13:36:57.563363] 
+Collecting tensorflow<2.21.0,>=2.8.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading tensorflow-2.20.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.5 kB)
+Collecting streamlit>=1.28.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 11))
+  Downloading streamlit-1.50.0-py3-none-any.whl.metadata (9.5 kB)
+Collecting protobuf<4.0.0,>=3.19.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 12))
+  Downloading protobuf-3.20.3-py2.py3-none-any.whl.metadata (720 bytes)
+Collecting opencv-python-headless>=4.5.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 15))
+  Downloading opencv_python_headless-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+Collecting pywavelets>=1.1.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 16))
+  Downloading pywavelets-1.9.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (7.6 kB)
+Collecting matplotlib>=3.5.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 20))
+  Downloading matplotlib-3.10.7-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+Collecting pandas>=1.3.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 23))
+  Downloading pandas-2.3.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 153.5 MB/s eta 0:00:00[2025-10-16 13:36:58.827943] 
+Collecting pydicom>=2.3.0 (from -r /mount/src/image-denoising-app/requirements.txt (line 26))
+  Downloading pydicom-3.0.1-py3-none-any.whl.metadata (9.4 kB)
+Collecting networkx>=3.0 (from scikit-image>=0.19.0->-r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+Collecting imageio!=2.35.0,>=2.33 (from scikit-image>=0.19.0->-r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading imageio-2.37.0-py3-none-any.whl.metadata (5.2 kB)
+Collecting tifffile>=2022.8.12 (from scikit-image>=0.19.0->-r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading tifffile-2025.10.4-py3-none-any.whl.metadata (30 kB)
+Collecting packaging>=21 (from scikit-image>=0.19.0->-r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting lazy-loader>=0.4 (from scikit-image>=0.19.0->-r /mount/src/image-denoising-app/requirements.txt (line 4))
+  Downloading lazy_loader-0.4-py3-none-any.whl.metadata (7.6 kB)
+Collecting absl-py>=1.0.0 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading absl_py-2.3.1-py3-none-any.whl.metadata (3.3 kB)
+Collecting astunparse>=1.6.0 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading astunparse-1.6.3-py2.py3-none-any.whl.metadata (4.4 kB)
+Collecting flatbuffers>=24.3.25 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading flatbuffers-25.9.23-py2.py3-none-any.whl.metadata (875 bytes)
+Collecting gast!=0.5.0,!=0.5.1,!=0.5.2,>=0.2.1 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading gast-0.6.0-py3-none-any.whl.metadata (1.3 kB)
+Collecting google_pasta>=0.1.1 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading google_pasta-0.2.0-py3-none-any.whl.metadata (814 bytes)
+Collecting libclang>=13.0.0 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl.metadata (5.2 kB)
+Collecting opt_einsum>=2.3.2 (from tensorflow<2.21.0,>=2.8.0->-r /mount/src/image-denoising-app/requirements.txt (line 8))
+  Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+INFO: pip is looking at multiple versions of tensorflow to determine which version is compatible with other requirements. This could take a while.
+ERROR: Cannot install -r /mount/src/image-denoising-app/requirements.txt (line 8) and protobuf<4.0.0 and >=3.19.0 because these package versions have conflicting dependencies.
+
+The conflict is caused by:
+    The user requested protobuf<4.0.0 and >=3.19.0
+    tensorflow 2.20.0 depends on protobuf>=5.28.0
+
+To fix this you could try to:
+1. loosen the range of package versions you've specified
+2. remove package versions to allow pip attempt to solve the dependency conflict
+
+ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+Checking if Streamlit is installed
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 5, in <module>
+    from streamlit.cli import main
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/__init__.py", line 48, in <module>
+    from streamlit.proto.RootContainer_pb2 import RootContainer
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/proto/RootContainer_pb2.py", line 33, in <module>
+    _descriptor.EnumValueDescriptor(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+      name='MAIN', index=0, number=0,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      serialized_options=None,
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+      type=None,
+      ^^^^^^^^^^
+      create_key=_descriptor._internal_create_key),
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/google/protobuf/descriptor.py", line 1038, in __new__
+    _message.Message._CheckCalledFromGeneratedFile()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: Descriptors cannot be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+If you cannot immediately regenerate your protos, some other possible workarounds are:
+ 1. Downgrade the protobuf package to 3.20.x or lower.
+ 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+
+More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+WARNING: Package(s) not found: streamlit-nightly
+Couldn't find Streamlit version.
+Installing rich for an improved exception logging
+Using standard pip install.
+Collecting rich>=10.14.0
+  Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=10.14.0)
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.14.0)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.14.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 243.4/243.4 kB 12.8 MB/s eta 0:00:00[2025-10-16 13:37:02.968924] 
+Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 113.8 MB/s eta 0:00:00[2025-10-16 13:37:02.985677] 
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 64.2 MB/s eta 0:00:00[2025-10-16 13:37:03.017636] 
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: pygments, mdurl, markdown-it-py, rich
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.19.2
+    Uninstalling Pygments-2.19.2:
+      Successfully uninstalled Pygments-2.19.2
+  Attempting uninstall: mdurl
+    Found existing installation: mdurl 0.1.2
+    Uninstalling mdurl-0.1.2:
+      Successfully uninstalled mdurl-0.1.2
+  Attempting uninstall: markdown-it-py
+    Found existing installation: markdown-it-py 4.0.0
+    Uninstalling markdown-it-py-4.0.0:
+      Successfully uninstalled markdown-it-py-4.0.0
+  Attempting uninstall: rich
+    Found existing installation: rich 14.2.0
+    Uninstalling rich-14.2.0:
+      Successfully uninstalled rich-14.2.0
+Successfully installed markdown-it-py-4.0.0 mdurl-0.1.2 pygments-2.19.2 rich-14.2.0
+
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[13:37:06] ❗️ installer returned a non-zero exit code

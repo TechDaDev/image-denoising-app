@@ -1,6 +1,10 @@
 import os
 import io
 import zipfile
+
+# Set environment variable to help with protobuf compatibility
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import numpy as np
 import pydicom
 from pathlib import Path
