@@ -4,11 +4,12 @@ Pillow
 scikit-image
 scipy
 
-# Deep Learning - Specific versions that work together
-tensorflow
+# Deep Learning - TensorFlow requires protobuf >= 5.28
+tensorflow>=2.20.0,<2.21.0
 
-# Web Application - Latest Streamlit with protobuf fix
-streamlit
+# Web Application - Use a modern Streamlit compatible with protobuf 5/6
+streamlit>=1.40.0
+protobuf>=5.28.0
 
 # Image Processing
 opencv-python-headless
@@ -20,6 +21,3 @@ pandas
 
 # Medical Imaging (DICOM)
 pydicom
-
-# Force compatible protobuf version
-protobuf
