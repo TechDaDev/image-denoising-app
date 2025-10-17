@@ -2,8 +2,16 @@ import os
 import io
 import zipfile
 
-# Set environment variable to help with protobuf compatibility
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+# Environment tweaks before heavy imports
+# 1) Protobuf compatibility fallback (safe even if not needed)
+os.environ.setdefault("PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION", "python")
+# 2) Force Streamlit to use polling watcher on platforms with strict inotify limits
+os.environ.setdefault("STREAMLIT_SERVER_FILE_WATCHER_TYPE", "poll")
+# Backward-compat: older Streamlit versions look at this key
+os.environ.setdefault("STREAMLIT_FILE_WATCHER_TYPE", "poll")
+# 3) Reduce noisy TF logs and avoid GPU probing on CPU-only servers
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "-1")
 
 import numpy as np
 import pydicom

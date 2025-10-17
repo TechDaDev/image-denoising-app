@@ -1,0 +1,5 @@
+[server]
+# Use polling watcher to avoid inotify watch limit on Streamlit Cloud
+fileWatcherType = "poll"
+headless = true
+runOnSave = false
