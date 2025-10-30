@@ -16,7 +16,7 @@ os.environ.setdefault("CUDA_VISIBLE_DEVICES", "-1")
 import numpy as np
 import pydicom
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import streamlit as st
 import pywt
 from skimage import img_as_float
@@ -49,6 +49,39 @@ def calculate_entropy(image):
     # Calculate entropy (avoid log(0) by removing zero values)
     entropy = -np.sum([p * np.log2(p) for p in hist if p > 0])
     return entropy
+
+def create_labeled_sbs(panes_u8: list, labels: list) -> Image.Image:
+    """Create a side-by-side image from grayscale uint8 panes and draw labels.
+    panes_u8: list of 2D np.uint8 arrays (H, W)
+    labels: list of strings, same length as panes_u8
+    Returns PIL Image (RGB)
+    """
+    assert len(panes_u8) == len(labels) and len(panes_u8) > 0
+    # Convert to PIL and stack horizontally
+    pil_panes = [Image.fromarray(p, mode='L').convert('RGB') for p in panes_u8]
+    # Ensure same height
+    h = min(im.height for im in pil_panes)
+    pil_panes = [im.resize((im.width, h)) for im in pil_panes]
+    total_w = sum(im.width for im in pil_panes)
+    # Add a small top margin for text
+    top_bar = 24
+    canvas = Image.new('RGB', (total_w, h + top_bar), color=(255, 255, 255))
+    # Paste panes
+    x = 0
+    positions = []
+    for im in pil_panes:
+        canvas.paste(im, (x, top_bar))
+        positions.append(x)
+        x += im.width
+    # Draw labels
+    draw = ImageDraw.Draw(canvas)
+    try:
+        font = ImageFont.load_default()
+    except Exception:
+        font = None
+    for x, label, im in zip(positions, labels, pil_panes):
+        draw.text((x + 6, 4), label, fill=(0, 0, 0), font=font)
+    return canvas
 
 # Configure page
 st.set_page_config(
@@ -160,6 +193,14 @@ apply_sharpening = st.sidebar.checkbox("Apply edge sharpening", value=True)
 amount = st.sidebar.slider("Unsharp amount", min_value=0.1, max_value=2.0, value=1.0, step=0.1)
 sigma_gauss = st.sidebar.slider("Gaussian blur for sharpening", min_value=0.1, max_value=2.0, value=1.0, step=0.1)
 
+# Download composition options
+st.sidebar.title("Downloads")
+include_prefilter_in_download = st.sidebar.checkbox(
+    "Include pre-filtered panel in downloads",
+    value=True,
+    help="If unchecked, side-by-side images will include only Original | After DnCNN | Final"
+)
+
 # Batch mode toggle
 batch_mode = st.sidebar.checkbox("Batch mode (multiple images)", value=False, help="Process multiple images and download a ZIP of outputs.")
 
@@ -264,16 +305,25 @@ def process_file(file_obj):
     ent_f = calculate_entropy(final_local)
     # Side by side
     try:
-        sbs = np.concatenate([
-            (orig_local*255).astype(np.uint8),
+        panes = [
+            (orig_local*255).astype(np.uint8)
+        ]
+        labels = ["Original"]
+        if include_prefilter_in_download:
+            panes.append((pre_local*255).astype(np.uint8))
+            labels.append("After Filters")
+        panes.extend([
             (den_local*255).astype(np.uint8),
             (final_local*255).astype(np.uint8)
-        ], axis=1)
+        ])
+        labels.extend(["After DnCNN", "Final Output"])
+        sbs = np.array(create_labeled_sbs(panes, labels))
     except Exception:
         sbs = None
     return {
         'name': name,
         'orig': orig_local,
+        'pre': pre_local,
         'den': den_local,
         'final': final_local,
         'psnr': psnr_local,
@@ -396,9 +446,15 @@ with st.spinner('Calculating metrics...'):
     # Calculate entropy
     orig_entropy = calculate_entropy(orig)
     final_entropy = calculate_entropy(final)
+    # Metrics for pre-filtered stage vs original (diagnostic)
+    try:
+        pre_psnr_val = psnr(orig, prefiltered, data_range=1.0)
+        pre_ssim_val = ssim(orig, prefiltered, data_range=1.0, win_size=7)
+    except Exception:
+        pre_psnr_val, pre_ssim_val = None, None
 
 # Display images and metrics
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.image((orig * 255).astype(np.uint8), caption="Original", use_container_width=True)
@@ -406,6 +462,17 @@ with col1:
              help="Measures the amount of information/randomness in the image. Higher values indicate more texture or noise.")
 
 with col2:
+    st.image((prefiltered * 255).astype(np.uint8), caption="After Traditional Filters", use_container_width=True)
+    # Entropy and similarity metrics after pre-filters
+    try:
+        pre_entropy = calculate_entropy(prefiltered)
+        st.metric("Entropy", f"{pre_entropy:.4f}")
+        if pre_psnr_val is not None and pre_ssim_val is not None:
+            st.caption(f"Pre vs Orig → PSNR {pre_psnr_val:.2f} dB | SSIM {pre_ssim_val:.4f}")
+    except Exception:
+        pass
+
+with col3:
     st.image((denoised * 255).astype(np.uint8), caption="After DnCNN", use_container_width=True)
     st.metric("PSNR", f"{psnr_val:.2f} dB",
              help="Peak Signal-to-Noise Ratio. Higher values (typically 30-50 dB) indicate better quality.\n"
@@ -413,7 +480,7 @@ with col2:
                    "• 20-30 dB: Acceptable quality\n"
                    "• <20 dB: Poor quality")
 
-with col3:
+with col4:
     st.image((final * 255).astype(np.uint8), caption="Final Output", use_container_width=True)
     st.metric("SSIM", f"{ssim_val:.4f}",
              help="Structural Similarity Index. Ranges from -1 to 1, where 1 means identical to original.\n"
@@ -444,14 +511,22 @@ Image.fromarray((final * 255).astype(np.uint8)).save(buf, format="PNG")
 buf.seek(0)
 st.download_button("⬇️ Download Output (PNG)", buf, file_name="denoised.png", mime="image/png")
 
-# Side-by-side composite (Original | After DnCNN | Final)
+# Side-by-side composite (Original | [After Traditional Filters] | After DnCNN | Final)
 orig_u8 = (orig * 255).astype(np.uint8)
 denoised_u8 = (denoised * 255).astype(np.uint8)
 final_u8 = (final * 255).astype(np.uint8)
 
 # Ensure same height and concatenate horizontally
 try:
-    side_by_side = np.concatenate([orig_u8, denoised_u8, final_u8], axis=1)
+    panes = [orig_u8]
+    labels = ["Original"]
+    if include_prefilter_in_download:
+        panes.append((prefiltered * 255).astype(np.uint8))
+        labels.append("After Filters")
+    panes.extend([denoised_u8, final_u8])
+    labels.extend(["After DnCNN", "Final Output"])
+    side_by_side_img = create_labeled_sbs(panes, labels)
+    side_by_side = np.array(side_by_side_img)
     sbs_buf = io.BytesIO()
     Image.fromarray(side_by_side).save(sbs_buf, format="PNG")
     sbs_buf.seek(0)
